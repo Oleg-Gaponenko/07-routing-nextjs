@@ -3,13 +3,16 @@ import NotesClient from './Notes.client';
 import { fetchNotes } from '@/lib/api';
 
 interface NotesPageProps {
-  params: Promise<{ slug: string[] }>;
+  params: { slug?: string[] };
 }
 
 export default async function NotesPage({ params }: NotesPageProps) {
-  const slug = await params;
-  const tag = slug[0] as NoteTag | undefined;
-  const allTags = tag !== 'all';
-  const notesData = await fetchNotes({ tag: allTags ? tag : undefined });
-  return <NotesClient initialData={notesData} />;
+  const initialTag = params.slug?.[0];
+  const tag =
+    initialTag && initialTag.toLowerCase() !== 'all'
+      ? (initialTag as NoteTag)
+      : undefined;
+  const notesData = await fetchNotes({ tag });
+
+  return <NotesClient initialData={notesData} tag={tag} />;
 }

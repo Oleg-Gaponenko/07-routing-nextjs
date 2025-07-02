@@ -11,6 +11,7 @@ interface NoteHubParams {
   search?: string;
   page?: number;
   perPage?: number;
+  tag?: NoteTag;
 }
 
 interface CreateNoteParams {

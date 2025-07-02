@@ -12,13 +12,13 @@ export default function TagsMenu() {
       <button className={css.menuButton}>Notes ▾</button>
       <ul className={css.menuList}>
         <li className={css.menuItem}>
-          <Link href="/notes/filter/all" className={css.menuLink}>
+          <Link href="/notes/all" className={css.menuLink}>
             All notes
           </Link>
         </li>
         {tags.map(tag => (
           <li key={tag} className={css.menuItem}>
-            <Link href={`/notes/filter/${tag}`} className={css.menuLink}>
+            <Link href={`/notes/${tag}`} className={css.menuLink}>
               {tag}
             </Link>
           </li>
