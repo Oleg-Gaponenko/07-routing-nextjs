@@ -1,6 +1,6 @@
 'use client';
 import { NoteTag } from '@/types/note';
-import css from './SitebarNotes.module.css';
+import css from './SidebarNotes.module.css';
 import Link from 'next/link';
 
 const tags: (NoteTag | 'All')[] = [

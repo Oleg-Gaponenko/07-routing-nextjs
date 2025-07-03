@@ -65,9 +65,7 @@ export default function NotesClient({ initialData, tag }: NotesClientProps) {
       </header>
       {isLoading && <Loader />}
       {isError && error && <ErrorMessage message={error.message} />}
-      {data && data?.notes.length > 0 && (
-        <NoteList notes={data.notes} tag={tag} />
-      )}
+      {data && data?.notes.length > 0 && <NoteList notes={data.notes} />}
       {!isLoading && !isError && data && data?.notes.length === 0 && (
         <AbsentDataMessage />
       )}

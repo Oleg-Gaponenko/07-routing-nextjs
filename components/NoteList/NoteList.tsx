@@ -7,10 +7,9 @@ import Link from 'next/link';
 
 interface NoteListProps {
   notes: Note[];
-  tag?: string;
 }
 
-export default function NoteList({ notes, tag }: NoteListProps) {
+export default function NoteList({ notes }: NoteListProps) {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
@@ -36,9 +35,7 @@ export default function NoteList({ notes, tag }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
-            <Link href={`/notes/filter/${tag ?? 'all'}/${note.id}`}>
-              View details
-            </Link>
+            <Link href={`/notes/${note.id}`}>View details</Link>
             <button
               className={css.button}
               onClick={() => deleteMutation.mutate(note.id)}

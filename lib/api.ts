@@ -43,6 +43,7 @@ export async function fetchNotes({
   search = '',
   page = 1,
   perPage = 12,
+  tag,
 }: NoteHubParams): Promise<NoteHubResponse> {
   try {
     const params: Record<string, string | number> = {
@@ -52,6 +53,10 @@ export async function fetchNotes({
 
     if (search.trim()) {
       params.search = search.trim();
+    }
+
+    if (tag) {
+      params.tag = tag;
     }
 
     const response: AxiosResponse<NoteHubResponse> = await instance.get(
