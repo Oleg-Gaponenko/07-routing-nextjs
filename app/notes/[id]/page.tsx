@@ -5,11 +5,11 @@ import NoteDetails from './NoteDetails.client';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 
 interface NoteDetailsProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function NoteDetailsPage({ params }: NoteDetailsProps) {
-  const { id } = params;
+  const { id } = await params;
   const noteId = Number(id);
 
   const queryClient = getQueryClient();
