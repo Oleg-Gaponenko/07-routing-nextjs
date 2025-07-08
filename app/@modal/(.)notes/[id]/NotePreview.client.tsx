@@ -5,39 +5,44 @@ import Loader from '@/components/Loader/Loader';
 import Modal from '@/components/Modal/Modal';
 import NotePreview from '@/components/NotePreview/NotePreview';
 import { fetchNoteById } from '@/lib/api';
+import { Note } from '@/types/note';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-export default function NotePreviewModal() {
-  const params = useParams();
-  const id = Number(params?.id);
+interface NotePreviewProps {
+  id: number;
+  note: Note;
+}
 
-  const {
-    data: note,
-    isLoading,
-    isError,
-  } = useQuery({
+export default function NotePreviewModal({ id, note }: NotePreviewProps) {
+  const router = useRouter();
+
+  const { data, isLoading, isError } = useQuery<Note>({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
+    initialData: note,
+    refetchOnMount: false,
   });
+
+  const handleClosePreview = () => router.back();
 
   if (isLoading)
     return (
-      <Modal>
+      <Modal onClose={handleClosePreview}>
         <Loader />
       </Modal>
     );
 
-  if (isError || !note)
+  if (isError || !data)
     return (
-      <Modal>
+      <Modal onClose={handleClosePreview}>
         <AbsentDataMessage />
       </Modal>
     );
 
   return (
-    <Modal>
-      <NotePreview note={note} />
+    <Modal onClose={handleClosePreview}>
+      <NotePreview note={data} />
     </Modal>
   );
 }

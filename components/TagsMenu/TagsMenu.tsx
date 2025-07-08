@@ -34,7 +34,11 @@ export default function TagsMenu() {
       {isOpen && (
         <ul className={css.menuList}>
           <li className={css.menuItem}>
-            <Link href="/notes/filter/all" className={css.menuLink}>
+            <Link
+              href="/notes/filter/all"
+              className={css.menuLink}
+              onClick={() => setIsOpen(false)}
+            >
               All notes
             </Link>
           </li>

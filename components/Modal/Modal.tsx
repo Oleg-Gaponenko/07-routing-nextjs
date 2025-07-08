@@ -1,36 +1,43 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import css from './Modal.module.css';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
   children: React.ReactNode;
+  onClose: () => void;
 }
 
-export default function Modal({ children }: ModalProps) {
-  const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
-  const router = useRouter();
-
+export default function Modal({ children, onClose }: ModalProps) {
+  const [installed, setInstalled] = useState(false);
   useEffect(() => {
-    const root = document.getElementById('modal');
-    setModalRoot(root);
+    setInstalled(true);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') router.back();
+      if (event.key === 'Escape') onClose();
     };
+
     document.addEventListener('keydown', handleEscape);
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = originalOverflow;
     };
-  }, [router]);
-
-  if (!modalRoot) return null;
+  }, [onClose]);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) router.back();
+    if (event.target === event.currentTarget) onClose();
   };
+
+  if (!installed) return null;
 
   return createPortal(
     <div
@@ -39,8 +46,17 @@ export default function Modal({ children }: ModalProps) {
       aria-modal="true"
       onClick={handleClick}
     >
-      <div className={css.modal}>{children}</div>
+      <div className={css.modal}>
+        <button
+          onClick={onClose}
+          aria-label="Close modal"
+          className={css.closeButton}
+        >
+          ✕
+        </button>
+        {children}
+      </div>
     </div>,
-    modalRoot
+    document.body
   );
 }

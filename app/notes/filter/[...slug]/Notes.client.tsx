@@ -42,7 +42,7 @@ export default function NotesClient({ initialData, tag }: NotesClientProps) {
         perPage: notesPerPage,
         tag,
       }),
-    // placeholderData: previousData => previousData,
+    placeholderData: previousData => previousData,
     initialData,
   });
 
@@ -71,7 +71,7 @@ export default function NotesClient({ initialData, tag }: NotesClientProps) {
       )}
 
       {isModalOpen && (
-        <Modal>
+        <Modal onClose={() => setIsModalOpen(false)}>
           <NoteForm onCancel={() => setIsModalOpen(false)} />
         </Modal>
       )}
