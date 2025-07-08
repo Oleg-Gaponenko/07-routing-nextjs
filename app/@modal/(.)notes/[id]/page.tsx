@@ -1,7 +1,10 @@
 import { fetchNoteById } from '@/lib/api';
 import NotFound from '@/app/not-found';
-import { dehydrate, DehydratedState, QueryClient } from '@tanstack/react-query';
-import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import {
+  HydrationBoundary,
+  dehydrate,
+  QueryClient,
+} from '@tanstack/react-query';
 import NotePreviewModal from './NotePreview.client';
 
 interface NoteModalPageProps {
@@ -15,16 +18,15 @@ export default async function NoteModalPage({ params }: NoteModalPageProps) {
   if (isNaN(noteId)) return <NotFound />;
 
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
     queryKey: ['note', noteId],
     queryFn: () => fetchNoteById(noteId),
   });
 
-  const dehydratedState: DehydratedState = dehydrate(queryClient);
-
   return (
-    <TanStackProvider dehydratedState={dehydratedState}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <NotePreviewModal noteId={noteId} />
-    </TanStackProvider>
+    </HydrationBoundary>
   );
 }

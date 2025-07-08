@@ -23,10 +23,6 @@ export default function Modal({ children, onClose }: ModalProps) {
 
     document.addEventListener('keydown', handleEscape);
 
-    // if (document.activeElement instanceof HTMLElement) {
-    //   document.activeElement.blur();
-    // }
-
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = originalOverflow;
