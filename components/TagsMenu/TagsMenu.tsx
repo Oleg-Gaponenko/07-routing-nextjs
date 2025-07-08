@@ -28,14 +28,20 @@ export default function TagsMenu() {
 
   return (
     <div className={css.menuContainer} ref={menuRef}>
-      <button className={css.menuButton} onClick={toggleMenu}>
+      <button
+        className={css.menuButton}
+        onClick={toggleMenu}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+      >
         Notes ▾
       </button>
       {isOpen && (
-        <ul className={css.menuList}>
-          <li className={css.menuItem}>
+        <ul className={css.menuList} role="menu">
+          <li className={css.menuItem} role="none">
             <Link
               href="/notes/filter/all"
+              role="menu-item"
               className={css.menuLink}
               onClick={() => setIsOpen(false)}
             >
@@ -43,9 +49,10 @@ export default function TagsMenu() {
             </Link>
           </li>
           {tags.map(tag => (
-            <li key={tag} className={css.menuItem}>
+            <li key={tag} className={css.menuItem} role="none">
               <Link
                 href={`/notes/filter/${tag}`}
+                role="menu-item"
                 className={css.menuLink}
                 onClick={() => setIsOpen(false)}
               >

@@ -33,7 +33,7 @@
   margin: 0;
   list-style: none;
   min-width: 180px;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .menuItem {

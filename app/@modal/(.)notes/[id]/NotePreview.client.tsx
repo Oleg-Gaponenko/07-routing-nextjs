@@ -10,17 +10,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 interface NotePreviewProps {
-  id: number;
-  note: Note;
+  noteId: number;
 }
 
-export default function NotePreviewModal({ id, note }: NotePreviewProps) {
+export default function NotePreviewModal({ noteId }: NotePreviewProps) {
   const router = useRouter();
 
   const { data, isLoading, isError } = useQuery<Note>({
-    queryKey: ['note', id],
-    queryFn: () => fetchNoteById(id),
-    initialData: note,
+    queryKey: ['note', noteId],
+    queryFn: () => fetchNoteById(noteId),
     refetchOnMount: false,
   });
 
